@@ -1,0 +1,70 @@
+Encoder
+The dot function is used to depict a dot in morse code.The LED and the buzzer are in sync with 
+each other. DigitalWrite allows the led to blink and buzzer to beep in high and then low with unit 
+delay in between for a dot.
+
+
+void dot()
+{
+Serial.print(".");
+digitalWrite(led, HIGH);
+digitalWrite(buz, HIGH);
+delay(unit_delay);
+digitalWrite(led, LOW);
+digitalWrite(buz, LOW);
+delay(unit_delay);
+}
+
+The dash function is used to depict a dash in morse code.The LED and the buzzer are in sync 
+with each other. DigitalWrite allows the led to blink and buzzer to beep in high and then low with 
+3*unit delay for a dash.
+
+void dash()
+{
+Serial.print("-");
+digitalWrite(led, HIGH);
+digitalWrite(buz, HIGH);
+delay(unit_delay * 3);
+digitalWrite(led, LOW);
+digitalWrite(buz, LOW);
+delay(unit_delay);
+}
+We use a function for each letter and call the dots and dash functions as per the respective morse 
+code value.Given below is the function for the letter A.
+void A()
+{
+dot();
+delay(unit_delay);
+dash();
+delay(unit_delay);
+}
+Decoder
+The Morse_decod function contains the morse[] array for the morse code value of the characters.
+10
+void Morse_decod()
+{
+static String morse[] = {".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....",
+"..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-",
+".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", "!"
+};
+The MakeString function facilitates taking user input. If the button is pressed for less than 0.6 
+sec, it’s considered as a dot, else it’s considered as a dash.
+char MakeString()
+{
+if (pres_len < (unit_delay*3) && pres_len > 50)
+{
+return '.'; //if button press less than 0.6sec, it is a dot
+}
+else if (pres_len > (unit_delay*3))
+{
+return '-'; //if button press more than 0.6sec, it is a dash
+}
+}
+The setup function is used to set the button as input and LED as output. The Baud Rate is 9600.
+void setup() {
+Serial.begin(9600);
+pinMode(but, INPUT_PULLUP);
+pinMode(led, OUTPUT);
+}
+
+
